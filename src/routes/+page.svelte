@@ -1,30 +1,31 @@
 <script lang="ts">
-	import P5, { type Sketch } from 'p5-svelte';
-	let width = 55;
-	let height = 55;
+  import P5, { type Sketch } from 'p5-svelte';
 
-	const sketch: Sketch = (p5) => {
-		p5.setup = () => {
-			p5.createCanvas(400, 400);
-		};
+  let canvasWidth = 400;
+  let canvasHeight = 800;
 
-		p5.draw = () => {
-			p5.ellipse(p5.width / 2, p5.height / 2, width, height);
-		};
-	};
+  let horizontalNum = 12;
+  let verticalNum = 22;
+
+  let cubeSide = 10;
+
+  const sketch: Sketch = (p5) => {
+    p5.setup = () => {
+      p5.createCanvas(canvasWidth, canvasHeight);
+      p5.angleMode(p5.DEGREES);
+
+      let i = 0;
+      for (i; i < horizontalNum * verticalNum; i++) {
+        let xPos = (i % horizontalNum) * cubeSide;
+        let yPos = Math.floor(i / horizontalNum) * cubeSide;
+        console.log(Math.floor(i / verticalNum) * cubeSide);
+        p5.rotate(i);
+        p5.square(xPos, yPos, cubeSide);
+      }
+    };
+    // p5.draw = () => {};
+  };
 </script>
 
-<label>
-	Width
-	<input type="range" bind:value={width} min="100" max="1000" step="0.01" />
-	{width}
-</label>
-
-<label>
-	Height
-	<input type="range" bind:value={height} min="100" max="1000" step="0.01" />
-	{height}
-</label>
-
 <h1>Sketch</h1>
-<P5 {sketch} />
+<P5 {sketch} debug />
